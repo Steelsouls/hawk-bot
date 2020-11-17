@@ -12,7 +12,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix="hawk ")
 
 # Load all data in from airtable-exported .csv
-DATA = pandas.read_csv('static/Units-Grid view.csv', index-col='Name')
+data = pandas.read_csv('static/Units-Grid view.csv', index_col='Name')
 
 
 """
@@ -23,14 +23,14 @@ async def info(ctx, arg: str):
 
     # Pull all heroes who might match the request
     possible_request = []
-    for hero_abbrev in DATA['Command']:
-        if arg in hero_abbrev:
-            possible_request.append(hero_abbrev)
+    for hero_abbrev in data.Command:
+        if arg in str(hero_abbrev):
+            possible_request.append(str(hero_abbrev))
 
     # Match found
     if len(possible_request) == 1:
         # Lookup full hero data entry
-        requested_hero = DATA.loc(possible_request[0])
+        requested_hero = data.loc(possible_request[0])
 
         # Create Discord EMBED object for hero card
         response=discord.Embed(title="Green Elizabeth", description="Liones", color=0x00f510)
@@ -53,7 +53,7 @@ async def info(ctx, arg: str):
         # Create formatted string with Hero name and Command abbreviations
         format_possibles = ""
         for poss in possible_request:
-            format_possibles += DATA.name.command[poss]
+            format_possibles += data.name.command[poss]
             format_possibles += "    {}\n".format(poss)
         response = "Found multiple matches. Please be more specific.\n\n{}".format(format_possibles)
 
@@ -66,4 +66,4 @@ async def info(ctx, arg: str):
 bot.run(TOKEN)
 
 # StdOut notice that bot is connected to server
-print(f'{client.user} has connected to Discord!')
+# print(f'{client.user} has connected to Discord!')
