@@ -23,14 +23,14 @@ async def info(ctx, arg: str):
 
     # Pull all heroes who might match the request
     possible_request = []
-    for hero_abbrev in data.Command:
+    for hero_abbrev in data.['Command']:
         if arg in str(hero_abbrev):
             possible_request.append(str(hero_abbrev))
 
     # Match found
     if len(possible_request) == 1:
         # Lookup full hero data entry
-        requested_hero = data.loc(possible_request[0])
+        requested_hero = data[data['Command'] == possible_request]
 
         # Create Discord EMBED object for hero card
         response=discord.Embed(title="Green Elizabeth", description="Liones", color=0x00f510)
@@ -51,11 +51,12 @@ async def info(ctx, arg: str):
     # Multiple matches found
     if len(possible_request) > 1:
         # Create formatted string with Hero name and Command abbreviations
-        format_possibles = ""
-        for poss in possible_request:
-            format_possibles += data.name.command[poss]
-            format_possibles += "    {}\n".format(poss)
-        response = "Found multiple matches. Please be more specific.\n\n{}".format(format_possibles)
+        # format_possibles = ""
+        # for poss in possible_request:
+        #     format_possibles += data.name['command'][poss]
+        #     format_possibles += "    {}\n".format(poss)
+        # response = "Found multiple matches. Please be more specific.\n\n{}".format(format_possibles)
+        response = "Found multiple matches. Please be more specific."
 
 
     # send message to current channel
