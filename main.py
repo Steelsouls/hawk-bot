@@ -23,14 +23,14 @@ async def info(ctx, arg: str):
 
     # Pull all heroes who might match the request
     possible_request = []
-    for hero_abbrev in data.['Command']:
+    for hero_abbrev in data['Command']:
         if arg in str(hero_abbrev):
             possible_request.append(str(hero_abbrev))
 
     # Match found
     if len(possible_request) == 1:
         # Lookup full hero data entry
-        requested_hero = data[data['Command'] == possible_request]
+        requested_hero = data[data['Command'] == possible_request[0]]
 
         # Create Discord EMBED object for hero card
         response=discord.Embed(title="Green Elizabeth", description="Liones", color=0x00f510)
