@@ -48,6 +48,8 @@ async def info(ctx, arg: str):
     # No matches found
     if len(possible_request) == 0:
         response = "Did not find a matching hero. Please try again."
+        # send message to current channel
+        await ctx.send(response)
 
     # Multiple matches found
     if len(possible_request) > 1:
@@ -58,10 +60,10 @@ async def info(ctx, arg: str):
         #     format_possibles += "    {}\n".format(poss)
         # response = "Found multiple matches. Please be more specific.\n\n{}".format(format_possibles)
         response = "Found multiple matches. Please be more specific."
+        # send message to current channel
+        await ctx.send(response)
 
 
-    # send message to current channel
-    await ctx.send(response)
 
 
 # Run bot program
