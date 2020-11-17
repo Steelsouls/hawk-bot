@@ -33,16 +33,17 @@ async def info(ctx, arg: str):
         requested_hero = data[data['Command'] == possible_request[0]]
 
         # Create Discord EMBED object for hero card
-        response=discord.Embed(title="Green Elizabeth", description="Liones", color=0x00f510)
-        response.set_thumbnail(url="https://rerollcdn.com/SDSGC/portraits/portrait_61.png")
-        response.add_field(name="Gear Set", value="4 HP / 2 Def [OR] 4 Atk / 2 Def", inline=True)
-        response.add_field(name="Gear Stats", value="Atk / Def / HP", inline=True)
-        response.add_field(name="Card 1 - Attack", value="400% Cancel buff & stance", inline=False)
-        response.add_field(name="Card 2 - Recovery", value="Heal allies 400% & Remove Debuffs", inline=False)
-        response.add_field(name="Ult", value="Heal allies 400% & Fill Ultimate x 2", inline=False)
-        response.add_field(name="Unique", value="Start with Ultimate Move Gauge at 2", inline=False)
-        response.add_field(name="Type", value="Support / Utility", inline=True)
-        response.add_field(name="Use", value="PvP / PvE / Grey Demon", inline=True)
+        embed=discord.Embed(title="Green Elizabeth", description="Liones", color=0x00f510)
+        embed.set_thumbnail(url="https://rerollcdn.com/SDSGC/portraits/portrait_61.png")
+        embed.add_field(name="Gear Set", value="4 HP / 2 Def [OR] 4 Atk / 2 Def", inline=True)
+        embed.add_field(name="Gear Stats", value="Atk / Def / HP", inline=True)
+        embed.add_field(name="Card 1 - Attack", value="400% Cancel buff & stance", inline=False)
+        embed.add_field(name="Card 2 - Recovery", value="Heal allies 400% & Remove Debuffs", inline=False)
+        embed.add_field(name="Ult", value="Heal allies 400% & Fill Ultimate x 2", inline=False)
+        embed.add_field(name="Unique", value="Start with Ultimate Move Gauge at 2", inline=False)
+        embed.add_field(name="Type", value="Support / Utility", inline=True)
+        embed.add_field(name="Use", value="PvP / PvE / Grey Demon", inline=True)
+        await ctx.send(embed=embed)
 
     # No matches found
     if len(possible_request) == 0:
