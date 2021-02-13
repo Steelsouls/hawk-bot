@@ -1,4 +1,5 @@
 import os
+import re
 import csv
 import discord
 from discord.ext import commands
@@ -13,9 +14,7 @@ bot = commands.Bot(command_prefix="hawk ")
 
 # Declare Constants
 DATA_FILENAME = 'static/Units-Grid view.csv'
-GREEN = "0x00f510"
-RED = "0xf51000"
-BLUE = "0x1000f5"
+
 
 # initializing the titles and rows list 
 data = []
@@ -35,7 +34,7 @@ with open(DATA_FILENAME, 'r') as csvfile:
     # extracting each data row one by one
     for row in csvreader:
         hero_dict = {}
-        for i in range(len(row):
+        for i in range(len(row)):
             hero_dict[headers[i]] = row[i]
         data.append(hero_dict)
 
@@ -49,25 +48,28 @@ async def info(ctx, arg: str):
     # Pull all heroes who might match the request
     possible_request = []
     for hero in data:
-        for abbreviation in hero['Command']:
-            if arg in str(abbreviation):
-                possible_request.append(hero)
+        if arg in hero['Command'].split(', '):
+            possible_request.append(hero)
 
     # Match found
     if len(possible_request) == 1:
         # simplify single hero data into variable
         hero = possible_request[0]
 
+        # Get discord embed color code based on hero type
         if hero['Type'] == 'Strength':
-            color_code = RED
+            color_code = discord.Color.red()
         elif hero['Type'] == 'HP':
-            color_code = GREEN
+            color_code = discord.Color.green()
         elif hero['Type'] == 'Speed':
-            color_code = BLUE
+            color_code = discord.Color.blue()
+
+        # Strip Pic column of extra image name and parenthesis
+        image_url = re.search('https.+', hero['Pics']).group().strip(')')
 
         # Create Discord EMBED object for hero card
-        embed=discord.Embed(title=hero['Name'], description=hero['Title'], color=color_code)
-        embed.set_thumbnail(url=hero['Pics'])
+        embed=discord.Embed(title=hero['\ufeffName'], description=hero['Title'], color=color_code)
+        embed.set_thumbnail(url=image_url)
         embed.add_field(name="Gear Set", value=hero['Gear'], inline=True)
         embed.add_field(name="Gear Stats", value=hero['Gear Stats'], inline=True)
         embed.add_field(name=hero['Card 1'], value=hero['Card 1 Stats'], inline=False)
